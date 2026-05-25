@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Cricket Kit Store</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+/* HEADER */
+
+header{
+    background:#0a5c2f;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    margin-bottom:15px;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+nav button{
+    padding:10px 18px;
+    border:none;
+    border-radius:5px;
+    background:white;
+    color:#0a5c2f;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+nav button:hover{
+    background:yellow;
+}
+
+/* HERO */
+
+.hero{
+    background:url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1500&q=80');
+    background-size:cover;
+    background-position:center;
+    height:350px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:45px;
+    font-weight:bold;
+    text-shadow:2px 2px 10px black;
+}
+
+/* SEARCH */
+
+.search-box{
+    text-align:center;
+    margin:25px;
+}
+
+.search-box input{
+    width:60%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid gray;
+    font-size:18px;
+}
+
+/* PRODUCTS */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 5px 10px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:15px;
+    text-align:center;
+}
+
+.card-content h3{
+    margin-bottom:10px;
+}
+
+.price{
+    color:green;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.btn{
+    padding:10px 15px;
+    margin:5px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.buy{
+    background:#0a5c2f;
+    color:white;
+}
+
+.cart{
+    background:orange;
+    color:white;
+}
+
+.details{
+    background:#007bff;
+    color:white;
+}
+
+.buy:hover{
+    background:#084522;
+}
+
+.cart:hover{
+    background:darkorange;
+}
+
+.details:hover{
+    background:#0056b3;
+}
+
+/* FOOTER */
+
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .hero{
+        font-size:28px;
+        text-align:center;
+        padding:20px;
+    }
+
+    .search-box input{
+        width:90%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🏏 Power Cricket Kit Store</h1>
+
+    <nav>
+        <button onclick="showHome()">Home</button>
+        <button onclick="showCategory('Bat')">Bats</button>
+        <button onclick="showCategory('Ball')">Balls</button>
+        <button onclick="showCategory('Helmet')">Helmets</button>
+        <button onclick="showCategory('Shoes')">Shoes</button>
+        <button onclick="showCategory('Gloves')">Gloves</button>
+        <button onclick="contactUs()">Contact</button>
+    </nav>
+
+</header>
+
+<div class="hero">
+    World's Best Cricket Equipment
+</div>
+
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search Cricket Products...">
+</div>
+
+<section class="products" id="productContainer">
+
+</section>
+
+<footer>
+    <h2>🏏 Power Cricket Kit Store</h2>
+    <p>Buy Best Cricket Kits, Bats, Balls, Shoes & Accessories</p>
+</footer>
+
+<script>
+
+const products = [];
+
+const productTypes = [
+"Cricket Bat",
+"English Willow Bat",
+"Tennis Ball",
+"Leather Ball",
+"Helmet",
+"Cricket Shoes",
+"Batting Gloves",
+"Wicket Keeping Gloves",
+"Cricket Pads",
+"Kit Bag"
+];
+
+for(let i=1; i<=120; i++){
+
+    products.push({
+        id:i,
+        name: productTypes[i % productTypes.length] + " " + i,
+        price: "₹" + (500 + i*30),
+        image: "https://source.unsplash.com/400x400/?cricket,bat," + i
+    });
+
+}
+
+const container = document.getElementById("productContainer");
+
+function displayProducts(items){
+
+    container.innerHTML = "";
+
+    items.forEach(product => {
+
+        container.innerHTML += `
+
+        <div class="card">
+
+            <img src="${product.image}" alt="${product.name}">
+
+            <div class="card-content">
+
+                <h3>${product.name}</h3>
+
+                <div class="price">${product.price}</div>
+
+                <button class="btn buy"
+                onclick="buyNow('${product.name}')">
+                Buy Now
+                </button>
+
+                <button class="btn cart"
+                onclick="addToCart('${product.name}')">
+                Add To Cart
+                </button>
+
+                <button class="btn details"
+                onclick="viewDetails('${product.name}', '${product.price}')">
+                Details
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+
+}
+
+displayProducts(products);
+
+/* BUTTON FUNCTIONS */
+
+function buyNow(product){
+
+    alert("✅ Purchase Successful for " + product);
+
+}
+
+function addToCart(product){
+
+    alert("🛒 " + product + " added to cart");
+
+}
+
+function viewDetails(product, price){
+
+    alert(
+        "🏏 Product: " + product + "\n" +
+        "💰 Price: " + price + "\n" +
+        "⭐ Premium Quality Cricket Product"
+    );
+
+}
+
+/* NAVIGATION BUTTONS */
+
+function showHome(){
+
+    displayProducts(products);
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
+
+}
+
+function showCategory(category){
+
+    const filtered = products.filter(product =>
+        product.name.includes(category)
+    );
+
+    displayProducts(filtered);
+
+}
+
+function contactUs(){
+
+    alert(
+        "📞 Contact Us\n\n" +
+        "Phone: +91 9876543210\n" +
+        "Email: cricketstore@gmail.com"
+    );
+
+}
+
+/* SEARCH */
+
+document.getElementById("searchInput")
+.addEventListener("keyup", function(){
+
+    let value = this.value.toLowerCase();
+
+    const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(value)
+    );
+
+    displayProducts(filtered);
+
+});
+
+</script>
+
+</body>
+</html>
